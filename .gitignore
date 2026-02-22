@@ -1,0 +1,40 @@
+# --- Genel Editor & OS Dosyaları ---
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- Logs (Genel) ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Frontend (Vite & React) ---
+# Frontend klasörünün içindeki bağımlılıkları ve build çıktılarını gizle
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.vite/
+
+# --- Backend (Spring Boot & Maven) ---
+backend/target/
+backend/*.class
+backend/*.jar
+backend/.mvn/
+
+# --- Docker & Secrets ---
+**/.env
+**/.env.local
+docker-compose.override.yml
+# Hassas Spring dosyaları (isteğe bağlı)
+backend/src/main/resources/application-local.properties
