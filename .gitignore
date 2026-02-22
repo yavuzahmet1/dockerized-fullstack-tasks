@@ -36,5 +36,6 @@ backend/.mvn/
 **/.env
 **/.env.local
 docker-compose.override.yml
-# Hassas Spring dosyaları (isteğe bağlı)
+
+backend/src/main/resources/application.properties
 backend/src/main/resources/application-local.properties
