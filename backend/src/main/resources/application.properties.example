@@ -1,0 +1,10 @@
+spring.application.name=tasks
+
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql:...
+spring.datasource.username=username
+spring.datasource.password=entry_password_here
+
+
+
+spring.jpa.hibernate.ddl-auto=update
