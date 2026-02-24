@@ -5,9 +5,16 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,30 +32,54 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-    @Column(name="due_date")
+    @Column(name = "due_date")
     private LocalDateTime dueDate;
 
-    @Column(name="status")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private TaskStatus status;
 
-    @Column(name="priority")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
     private TaskPriority priority;
 
-    @Column(name="created_at", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_list_id")
+    private TaskList taskList;
+
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public Task(UUID id,String title, String description, LocalDateTime dueDate, TaskPriority priority,  TaskStatus status, LocalDateTime createdAt, LocalDateTime updatedAt   ) {
-        this.id = id;
+    public Task() {
+    }
+
+    public Task(String title,
+                String description,
+                LocalDateTime dueDate,
+                TaskStatus status,
+                TaskPriority priority,
+                TaskList taskList) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-        this.priority = priority;
         this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.priority = priority;
+        this.taskList = taskList;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -99,6 +130,14 @@ public class Task {
         this.priority = priority;
     }
 
+    public TaskList getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -115,24 +154,33 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-@Override
-public int hashCode() {
-    return (id == null) ? 0 : id.hashCode();
-}
+    @Override
+    public int hashCode() {
+        return (id == null) ? 0 : id.hashCode();
+    }
 
-@Override
-public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || getClass() != obj.getClass()) return false;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Task other = (Task) obj;
+        if (id == null || other.id == null) {
+            return false;
+        }
+        return id.equals(other.id);
+    }
 
-    Task other = (Task) obj;
-    return id != null && id.equals(other.id);
-}
-
-@Override
-public String toString() {
-    return "Task [id=" + id + ", title=" + title + ", description=" + description + ", dueDate=" + dueDate + ", status="
-            + status + ", priority=" + priority + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-}
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dueDate=" + dueDate +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
