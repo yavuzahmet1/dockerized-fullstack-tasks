@@ -1,4 +1,4 @@
-package com.devtry.tasks.entities;
+package com.devtry.tasks.domain.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -56,12 +56,12 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title,
-                String description,
-                LocalDateTime dueDate,
-                TaskStatus status,
-                TaskPriority priority,
-                TaskList taskList) {
+    public Task(UUID id, String title,
+            String description,
+            LocalDateTime dueDate,
+            TaskStatus status,
+            TaskPriority priority,
+            TaskList taskList) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -161,8 +161,10 @@ public class Task {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Task other = (Task) obj;
         if (id == null || other.id == null) {
             return false;

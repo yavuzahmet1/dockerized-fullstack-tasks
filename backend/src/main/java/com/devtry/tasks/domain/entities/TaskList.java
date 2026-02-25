@@ -1,4 +1,4 @@
-package com.devtry.tasks.entities;
+package com.devtry.tasks.domain.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,12 +32,8 @@ public class TaskList {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(
-        mappedBy = "taskList",
-        cascade = { CascadeType.PERSIST, CascadeType.REMOVE },
-        orphanRemoval = true,
-        fetch = FetchType.LAZY
-    )
+    @OneToMany(mappedBy = "taskList", cascade = { CascadeType.PERSIST,
+            CascadeType.REMOVE }, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Task> tasks = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false)
@@ -128,6 +124,7 @@ public class TaskList {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
     @Override
     public int hashCode() {
         return (id == null) ? 0 : id.hashCode();
@@ -135,12 +132,14 @@ public class TaskList {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         TaskList other = (TaskList) obj;
-        if (id == null || other.id == null) return false;
+        if (id == null || other.id == null)
+            return false;
         return id.equals(other.id);
     }
 
-    
 }

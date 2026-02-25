@@ -1,13 +1,14 @@
-package com.devtry.tasks.dto;
+package com.devtry.tasks.domain.dto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.devtry.tasks.entities.TaskPriority;
-import com.devtry.tasks.entities.TaskStatus;
+import com.devtry.tasks.domain.entities.TaskPriority;
+import com.devtry.tasks.domain.entities.TaskStatus;
 
 public record TaskDto(
-        UUID id, String title,
+        UUID id,
+        String title,
         String description,
         LocalDateTime dueDate,
         TaskPriority priority,
