@@ -18,9 +18,9 @@ public class TaskListController {
     private final TaskListService taskListService;
     private final TaskListMapper taskListMapper;
 
-    public TaskListController(TaskListService taskListService, TaskListMapper taskListMapper) {
-        this.taskListService = taskListService;
+    public TaskListController(TaskListMapper taskListMapper, TaskListService taskListService) {
         this.taskListMapper = taskListMapper;
+        this.taskListService = taskListService;
     }
 
     @GetMapping
@@ -40,6 +40,13 @@ public class TaskListController {
     public Optional<TaskListDto> getTaskList(@PathVariable("taskListId")UUID taskListId) {
      return taskListService.getTaskListById(taskListId)
              .map(taskListMapper::toDto);
-
+    }
+    @PutMapping(path = "/{taskListId}")
+    public TaskListDto updateTaskList(@PathVariable("taskListId") UUID taskListId ,@RequestBody TaskListDto taskListDto) {
+        TaskList updatedTaskList=taskListService.updateTaskList(
+                taskListId,
+                taskListMapper.fromDto(taskListDto)
+        );
+        return taskListMapper.toDto(updatedTaskList);
     }
 }
