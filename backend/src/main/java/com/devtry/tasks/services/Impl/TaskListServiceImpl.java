@@ -68,4 +68,9 @@ return taskListRepository.save(existingTaskList);
 
     }
 
+    @Override
+    public void deleteTaskListById(UUID taskListId) {
+        taskListRepository.deleteById(taskListId);
+    }
+
 }
