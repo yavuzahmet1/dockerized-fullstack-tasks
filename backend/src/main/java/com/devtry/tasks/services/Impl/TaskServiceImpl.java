@@ -61,5 +61,10 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.toDto(taskToSave);
     }
 
-
+    @Override
+    public Optional<TaskDto> getTaskById(UUID taskListId, UUID taskId) {
+        return taskRepository
+                .findByTaskListIdAndId(taskListId, taskId)
+                .map(taskMapper::toDto);
+    }
 }
