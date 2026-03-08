@@ -67,8 +67,7 @@ public class TaskServiceImpl implements TaskService {
     if (!Objects.equals(taskId, taskDto.id())) {
       throw new IllegalArgumentException("Task IDs do not match");
     }
-
-    Task existingTask = taskListRepository.findByTaskListIdAndId(taskListId, taskId)
+    Task existingTask = taskRepository.findByTaskListIdAndId(taskListId, taskId)
         .orElseThrow(() -> new IllegalArgumentException("Task not found!"));
 
     existingTask.setTitle(taskDto.title());
@@ -79,5 +78,11 @@ public class TaskServiceImpl implements TaskService {
 
     Task savedTask = taskRepository.save(existingTask);
     return taskMapper.toDto(savedTask);
+  }
+
+  @Override
+  public void deleteTask(UUID taskListId, UUID taskId) {
+    taskRepository.deleteByTaskListIdAndId(taskListId, taskId);
+
   }
 }
